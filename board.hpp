@@ -4,21 +4,18 @@
 class Board {
     public:
         void setBoard(){
-
+            for (int row = 0; row < 10; row++){
+                for (int col = 0; col < 10; col++){
+                    board[row][col] = o;
+                }
+            }
         }
 
-        void setName(){
-
+        const Board getBoard(){
+            
         }
-
-        const Ship getBoard(){
-
-        }
-
-        string getName(){
-
-        }
-
+        
     private:
+        int board[10][10];
     
 }

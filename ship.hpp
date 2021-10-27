@@ -1,25 +1,64 @@
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
+
+enum ShipDirection {VERTICAL, HORIZONTAL};
 
 class Ship {
     public:
-        string getName(){
-
+        Ship(){
+            shipType = "";
+            dir = VERTICAL;
+            startRow = 0;
+            startCol = 0;
+            numOfHits = 0;
         }
 
-        int getHealth(){
-
+        Ship(int numHits, string name){
+            shipType = name;
+            dir = VERTICAL;
+            startRow = 0;
+            startCol = 0;
+            numOfHits = numHits;
         }
 
-        void setName(){
-
+        void setStartCol(int sc){
+            startCol = sc;
         }
 
-        void setHealth(){
-
+        const int getStartCol(){
+            return startCol;
         }
+
+         void setRow(int sr){
+            startRow = sr;
+        }
+
+        const int getStartRow(){
+            return startRow;
+        }
+
+         void setShipDirection(ShipDirection sd){
+            dir = sd;
+        }
+
+        const int getNumHits(){
+            return numOfHits;
+        }
+
+        const string getShipName(){
+            return shipType;
+        }
+
+        void setShipName(string shipName){
+            shipType = shipName;
+        }
+
     private:
-        int health;
-        string name;
+      int numOfHits;
+      ShipDirection dir;
+      int startRow;
+      int startCol;
+      string shipType;
 }

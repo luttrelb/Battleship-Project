@@ -1,17 +1,22 @@
 #include <iostream>
+#include <string>
 
 class Battleship {
-    void setPlayer(){
+    public:
+        void setPlayer(string gamePlayer){
+            this->gamePlayer = player;
+        }
 
-    }
+        void setComputer(string gameComputer){
+            this->gameComputer = computer;
+        }
 
-    void setComputer(){
+        const string winLoss(){
+            
+        }
 
-    }
+    private:
+        string player;
+        string computer;
 
-    int randGen(string name){
-
-    }
-
-    
 }

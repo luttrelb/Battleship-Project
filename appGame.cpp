@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
 using namespace std;
 
 enum ShipDirection {VERTICAL, HORIZONTAL};
@@ -84,7 +85,7 @@ class Board {
 				for(int col = 0; col < 10; col++){
 					std::cout << board[row][col] << " ";
 				}
-				std::cout << Std::endl;
+				std::cout << std::endl;
 			}
         }
         
@@ -96,6 +97,10 @@ class Board {
 }
 
 class Battleship {
+    private:
+        string player;
+        string computer;
+
     public:
         //set player function for swapping to player functionality
         void setPlayer(string gamePlayer){
@@ -179,7 +184,6 @@ class Battleship {
 
         }
 
-
         const string checkGameState(){
             for(int row = 0; row < 10; row++){
 				for(int col = 0; col < 10; col++){
@@ -190,10 +194,6 @@ class Battleship {
             }
 			return "Game is won by" + //whoever won; 
         }
-
-    private:
-        string player;
-        string computer;
 
 }
 

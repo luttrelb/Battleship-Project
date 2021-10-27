@@ -4,10 +4,12 @@
 
 using namespace std;
 
+//enumeration used as the positioning (vertical or horizontal) of the ships
 enum ShipDirection {VERTICAL, HORIZONTAL};
 
 class Ship {
     public:
+        //default ship construction initializing default private variables
         Ship(){
             shipType = "";
             dir = VERTICAL;
@@ -16,6 +18,9 @@ class Ship {
             numOfHits = 0;
         }
 
+
+        //ship constructor that initializes the number of hits the instantiated ship can take,
+        //and the name of the ship (CARRIER, BATTLESHIP, SUBMARINE etc.)
         Ship(int numHits, string name){
             shipType = name;
             dir = VERTICAL;
@@ -24,44 +29,52 @@ class Ship {
             numOfHits = numHits;
         }
 
+        //setter for setting the initial column of the ship
         void setStartCol(int sc){
             startCol = sc;
         }
 
+        //getter for the starting column of the ship
         const int getStartCol(){
             return startCol;
         }
 
-         void setRow(int sr){
+        //setter for setting the initial column of the ship
+        void setRow(int sr){
             startRow = sr;
         }
 
+        //getter for the starting row of the ship
         const int getStartRow(){
             return startRow;
         }
 
-         void setShipDirection(ShipDirection sd){
+        //setter that determines if the ship is positioned horizontal or vertical
+        void setShipDirection(ShipDirection sd){
             dir = sd;
         }
 
+        //getter for getting the number of hits left of the ship
         const int getNumHits(){
             return numOfHits;
         }
 
+        //getter for getting the name of the ship
         const string getShipName(){
             return shipType;
         }
 
+        //setter for setting the ship name
         void setShipName(string shipName){
             shipType = shipName;
         }
 
     private:
-      int numOfHits;
-      ShipDirection dir;
-      int startRow;
-      int startCol;
-      string shipType;
+      int numOfHits; //private variable for determining how many hits a boat can take
+      ShipDirection dir; //private variable determining horizontal or vertical positioning
+      int startRow; // private variable for the starting row of the boat
+      int startCol; // private variable for the starting column of the boat
+      string shipType; //private variable for the ship name/type
 }
 
 class Board {
@@ -92,14 +105,14 @@ class Board {
         //stream overload
 
     private:
-        int board[10][10];
+        int board[10][10]; //private instance variable of the 2d board array
     
 }
 
 class Battleship {
     private:
-        string player;
-        string computer;
+        string player; //private variable used for switching turns (player)
+        string computer; //private variable used for switching turns (computer)
 
     public:
         //set player function for swapping to player functionality
@@ -184,6 +197,7 @@ class Battleship {
 
         }
 
+        //function that checks if the game has been won yet
         const string checkGameState(){
             for(int row = 0; row < 10; row++){
 				for(int col = 0; col < 10; col++){

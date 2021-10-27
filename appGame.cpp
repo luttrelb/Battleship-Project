@@ -184,11 +184,11 @@ class Battleship {
             for(int row = 0; row < 10; row++){
 				for(int col = 0; col < 10; col++){
 					if(board[row][col] = 1){
-					    return "Game is not yet one";
+					    return "Game is not yet won";
 					}
                 }
             }
-			return "Game is won by" + //whoever one; 
+			return "Game is won by" + //whoever won; 
         }
 
     private:

@@ -5,17 +5,6 @@ enum ShipDirection {VERTICAL, HORIZONTAL};
 
 class Ship {
     public:
-        //default ship construction initializing default private variables
-        Ship(){
-            shipType = "";
-            dir = VERTICAL;
-            startRow = 0;
-            startCol = 0;
-            numOfHits = 0;
-        }
-
-
-        //ship constructor that initializes the number of hits the instantiated ship can take,
         //and the name of the ship (CARRIER, BATTLESHIP, SUBMARINE etc.)
         Ship(int numHits, string name){
             shipType = name;

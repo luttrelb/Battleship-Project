@@ -84,4 +84,22 @@ int main(int argc, char* argv[]){
     std::cout << "Enter Direction (0 or 1)";
     std::cin >> shipDir
     pBoard.placeShipPlayer(patrolboat, guessRow, guessCol, shipDir);
+    
+    do {
+        std::cout << "\n\nPlayer enter coordinates for guess: \n";
+        std::cout << "Enter Guess for Row: ";
+        std::cin >> guessRow;
+        guessRow = toupper(guessRow);
+        std::cout << "Enter Guess for Column";
+        std::cin >> guessCol;
+
+        //check if guess is hit
+        //if isHit
+            //notify player of hit and update board
+        //else 
+            //notify player of miss and add miss to guess record
+
+        //computer guess/turn
+    }
+    while (gameStatus !=true);
 }

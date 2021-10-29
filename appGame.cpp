@@ -9,12 +9,12 @@ using namespace std;
 
 int main(int argc, char* argv[]){
     char guessRow;
-	int guessCol;
+    int guessCol;
     int shipDir;
-	char playAgain();
-	char keepPlaying;
-	bool isGameWon;
-	bool isHit;
+    char playAgain();
+    char keepPlaying;
+    bool isGameWon;
+    bool isHit;
 
     Ship carrier = Ship(5, "Carrier");
     Ship battleship = Ship(4, "Battleship");

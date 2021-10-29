@@ -46,7 +46,7 @@ class Board {
 
         //function that is used in the process of checking and placing a ship correctly
         void placeShipPlayer(Ship ship, int shipRow, int shipCol, int shipDir){
-            if (randDir == 0){
+            if (shipDir == 0){
                 //set direction to VERTICAL
                 ship.setDirection(VERTICAL);
             }
@@ -55,11 +55,11 @@ class Board {
                 ship.setDirection(HORIZONTAL);
             }
             //Let player know if chosen row, column, and direction are not valid inputs
-            if (!openSpaceChecker()){
+            if (!openSpaceChecker(shipRow, shipCol, ship.getHitNum(), ship.getDirection())){
                 std::cout << "Selected row and column are not valid spots to place ship" << std::endl;
             }
             //place ship if chosen row and column and direction are all valid
-            if (openSpaceChecker()){
+            if (openSpaceChecker(shipRow, shipCol, ship.getHitNum(), ship.getDirection())){
                 placeShipHelper(shipRow, shipCol, size, ship.getDirection(), ship.getShipName());
             }
             
@@ -70,9 +70,9 @@ class Board {
             //get rand num between 0 and 1 for direction
             int randDir = randGen(0, 1);
             //get rand num between 0 and 9 for row
-            int randRow = randGen(0, 9);
+            int randRow = randGen(1, 10);
             //get rand num between 0 and 9 for col
-            int randCol = randGen(0, 9);
+            int randCol = randGen(1, 10);
             //check if direction is 0
             if (randDir == 0){
                 //set direction to VERTICAL
@@ -86,8 +86,8 @@ class Board {
             while(!openSpaceChecker(randRow, randCol, ship.getHitNum(), ship.getDirection()){
                 //keep getting random numbers for randRow and randCol until they fit within the
                 //space of the board    
-                randRow = randGen(0, 9);
-                randCol = randGen(0, 9);
+                randRow = randGen(1, 10);
+                randCol = randGen(1, 10);
             }
             //use new rand for row as startRow
             ship.setRow(randRow);
@@ -185,6 +185,10 @@ class Board {
                 }
             }
          }
+    
+    //guess function missing
+
+    //hit function missing
 
     private:
         int board[10][10]; //private instance variable of the 2d board array

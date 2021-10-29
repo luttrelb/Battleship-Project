@@ -35,5 +35,4 @@ class Battleship {
             //return true otherwise
 			return true;
         }
-
 }

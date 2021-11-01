@@ -2,10 +2,6 @@
 #include <string>
 #include "board.hpp"
 
-#include <iostream>
-#include <string>
-#include "board.hpp"
-
 //enumeration used to evaluate vertical or horizontal position
 enum ShipDirection {VERTICAL, HORIZONTAL};
 

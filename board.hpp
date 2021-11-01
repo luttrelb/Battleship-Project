@@ -6,16 +6,20 @@ using namespace std;
 
 class Board {
     public:
-        //initializes original state of the board
+        /**
+        * initializes original state of the board
+        */
         void setBoard(){
             for (int row = 0; row < 10; row++){
                 for (int col = 0; col < 10; col++){
-                    board[row][col] = 0;
+                    board[row][col] = o;
                 }
             }
         }
 
-        //prints state of the board
+        /**
+        * prints state of the board
+        */
         const Board getBoard(){
             //prints 0 - 9 vertically above board
             std::cout << "  0 1 2 3 4 5 6 7 8 9 10" << std::endl;
@@ -32,7 +36,13 @@ class Board {
 			}
         }
         
-       //random number generator that pulls from even distribution
+       /**
+        * random number generator that pulls from even distribution
+        *
+        * @param range_from the starting point for random generator
+        * @param range_to the ending point for random generator
+        * @return the distribution generator 
+        */
         int randGen(int range_from, int range_to){
             //create random device rand_dev
             std::random_device rand_dev;
@@ -44,7 +54,14 @@ class Board {
             return distr(generator);
         }
 
-        //function that is used in the process of checking and placing a ship correctly
+        /**
+        * Function that places the players ships
+        *
+        * @param ship ship to be placed
+        * @param shipRow the row that the ship will be placed
+        * @param shipCol the column that the ship will be placed
+        * @param shipDir the direction the ship will be placed (horizontal, vertical)
+        */
         void placeShipPlayer(Ship ship, int shipRow, int shipCol, int shipDir){
             if (shipDir == 0){
                 //set direction to VERTICAL
@@ -62,10 +79,13 @@ class Board {
             if (openSpaceChecker(shipRow, shipCol, ship.getHitNum(), ship.getDirection())){
                 placeShipHelper(shipRow, shipCol, size, ship.getDirection(), ship.getShipName());
             }
-            
         }
 
-        //function that is used in the process of checking and placing a ship correctly
+        /**
+        * function that is used in the process of checking and placing a ship correctly
+        *
+        * @param ship the ship to be placed by the computer
+        */
         void placeShipComputer(Ship ship){
             //get rand num between 0 and 1 for direction
             int randDir = randGen(0, 1);
@@ -97,8 +117,16 @@ class Board {
             placeShipHelper(shipRow, shipCol, size, shipDir, ship.getShipName());
         }
 
-        //function that checks and makes sure that the place we want to put a ship is an okay place
-        //to place the ship
+        /**
+        * function that checks and makes sure that the place we want to put a ship is an okay place
+        * to place the ship
+        *
+        * @param shipRow the row that the ship will be placed
+        * @param shipCol the column that the ship will be placed
+        * @param size the size of the ship to be placed
+        * @param shipDir the direction the ship will be placed (horizontal, vertical)
+        * @return true if ship can be placed, false otherwise
+        */
         const bool openSpaceChecker(int shipRow, int shipCol, int size, ShipDirection shipDir){
             //checks if the direction is vertical
             if(shipDir == VERTICAL){
@@ -130,7 +158,15 @@ class Board {
             return true;
         }
 
-        //function that places ship on the board assuming it is an ok place to put ship
+        /**
+        * function that places ship on the board assuming it is an ok place to put ship
+        *
+        * @param shipRow the row that the ship will be placed
+        * @param shipCol the column that the ship will be placed
+        * @param size the size of the ship to be placed
+        * @param shipDir the direction the ship will be placed (horizontal, vertical)
+        * @param name the name of the ship that is going to be placed
+        */
         void placeShipHelper(int shipRow, int shipCol, int size, ShipDirection shipDir, string name){
             //check if direction is vertical
             if(shipDir == VERTICAL){
@@ -186,9 +222,50 @@ class Board {
             }
          }
     
-    //guess function missing
+    /**
+        * Function that takes in a board and two guesses (row, col) and checks
+        * for a hit; for the player
+        *
+        * @param gBoard the board the guess is being checked against
+        * @param rowGuess the row that is being guessed
+        * @param colGuess the column that is being guessed
+        * @return returns true if there was a hit, and false otherwise
+        */
+    bool makeGuess(Board gBoard, int rowGuess, int colGuess){
+        for(int row = 0; row < 10; row++){         
+            for(int col = 0; col < 10; col++){
+                if ((gBoard[row][col] == gBoard[rowGuess][colGuess]){
+                    if ((board[row][col] == 1) || (gBoard[row][col] == 2) ||
+                    (gBoard[row][col] == 3) || (gBoard[row][col] == 4) ||
+                    (gBoard[row][col] == 5)){
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }
 
-    //hit function missing
+    /**
+        * Function that takes in a board and two guesses (row, col) and checks
+        * for a hit; for the computer
+        *
+        * @param gBoard the board the guess is being checked against
+        * @param rowGuess the row that is being guessed
+        * @param colGuess the column that is being guessed
+        * @return returns true if there was a hit, and false otherwise
+        */
+    bool computerGuess(Board gBoard, int compRow, int compCol){
+        for(int row = 0; row < 10; row++){         
+            for(int col = 0; col < 10; col++){
+                if ((gBoard[row][col] == gBoard[compRow][compCol]){
+                    if ((gboard[row][col] == 1) || (gBoard[row][col] == 2) ||
+                    (gBoard[row][col] == 3) || (gBoard[row][col] == 4) ||
+                    (gBoard[row][col] == 5)){
+                        return true;
+                    }
+                }
+            }
+    }
 
     private:
         int board[10][10]; //private instance variable of the 2d board array

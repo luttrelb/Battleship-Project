@@ -5,55 +5,100 @@ enum ShipDirection {VERTICAL, HORIZONTAL};
 
 class Ship {
     public:
-        //and the name of the ship (CARRIER, BATTLESHIP, SUBMARINE etc.)
+        /**
+        * Constructor for creating default ship
+        *
+        * @param numHits the number of hits the ship can take
+        * @param name the name of the ship
+        */
         Ship(int numHits, string name){
-            shipType = name;
-            dir = VERTICAL;
-            startRow = 0;
-            startCol = 0;
-            numOfHits = numHits;
+            shipType = name; //default ship name
+            dir = VERTICAL; //default ship direction
+            startRow = 0; //default ship row
+            startCol = 0; //default ship column
+            numOfHits = numHits; //default number of hits
         }
 
-        //setter for setting the initial column of the ship
+        /**
+        * setter for setting the initial column of the ship
+        *
+        * @param sc the column to be set
+        */
         void setCol(int sc){
             startCol = sc;
         }
 
-        //getter for the starting column of the ship
+        /** 
+        * getter for getting the ship column
+        * @return starting column
+        */
         const int getCol(){
             return startCol;
         }
 
-        //setter for setting the initial column of the ship
+        /**
+        * setter for setting the initial row of the ship
+        *
+        * @param sr the row to be set
+        */
         void setRow(int sr){
             startRow = sr;
         }
 
-        //getter for the starting row of the ship
+        /** 
+        * getter for getting the ship row
+        * @return starting row
+        */
         const int getRow(){
             return startRow;
         }
 
-        //setter that determines if the ship is positioned horizontal or vertical
+        /**
+        * setter that determines if the ship is positioned horizontal or vertical
+        *
+        * @param sd the direction of the boat
+        */
         void setDirection(ShipDirection sd){
             dir = sd;
         }
 
+        /** 
+        * getter for getting the ship direction
+        * @return starting direction
+        */
         const ShipDirection getDirection(){
             return dir;
         }
 
-        //getter for getting the number of hits left of the ship
+        /**
+        * function for reducing number of hits left by 1
+        *
+        */
+        void reduceHitNum(){
+            numOfHits = numOfHits - 1;
+        }
+
+        /**
+        * getter for getting the number of hits the ship has left
+        * @return number of hits
+        */
         const int getHitNum(){
             return numOfHits;
         }
 
-        //getter for getting the name of the ship
+        /**
+        * getter for getting the name of the ship
+        * @returns ship type (name)
+        */
         const string getShipName(){
             return shipType;
         }
 
-        //setter for setting the ship name
+        /**
+        * setter for setting the ship name
+        *
+        * @param shipName the name of the boat
+        */
         void setShipName(string shipName){
             shipType = shipName;
         }

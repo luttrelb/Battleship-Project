@@ -1,18 +1,29 @@
 #include <iostream>
 #include <string>
+#include <random>
 #include "ship.hpp"
 
-using namespace std;
+enum ShipDirection {VERTICAL, HORIZONTAL};
 
 class Board {
     public:
+
+        Board(){
+
+        }
+
+        Board(Board board[10][10]) {
+            board = board;
+        }
+
         /**
         * initializes original state of the board
         */
         void setBoard(){
+            Board board[10][10];
             for (int row = 0; row < 10; row++){
                 for (int col = 0; col < 10; col++){
-                    board[row][col] = o;
+                    board[row][col] = 0;
                 }
             }
         }
@@ -20,7 +31,13 @@ class Board {
         /**
         * prints state of the board
         */
-        const Board getBoard(){
+        void printBoard(Board board[10][10]){
+            Board pBoard[10][10];
+            for (int row = 0; row < 10; row++){
+                for (int col = 0; col < 10; col++){
+                    pBoard[row][col] = board[row][col];
+                }
+            }
             //prints 0 - 9 vertically above board
             std::cout << "  0 1 2 3 4 5 6 7 8 9 10" << std::endl;
             // rowLabel starts at A and is incremented A - J as column indicators
@@ -30,7 +47,7 @@ class Board {
 				std::cout << rowLabel << " ";
 				rowLabel++;
 				for(int col = 0; col < 10; col++){
-					std::cout << board[row][col] << " ";
+					std::cout << pBoard[row][col] << " ";
 				}
 				std::cout << std::endl;
 			}
@@ -62,7 +79,14 @@ class Board {
         * @param shipCol the column that the ship will be placed
         * @param shipDir the direction the ship will be placed (horizontal, vertical)
         */
-        void placeShipPlayer(Ship ship, int shipRow, int shipCol, int shipDir){
+        void placeShipPlayer(Board board[10][10], Ship ship, int shipRow, int shipCol, int shipDir){
+            Board boardP[10][10];
+            for (int row = 0; row < 10; row++){
+                for (int col = 0; col < 10; col++){
+                    boardP[row][col] = board[row][col];
+                }
+            }
+
             if (shipDir == 0){
                 //set direction to VERTICAL
                 ship.setDirection(VERTICAL);
@@ -72,12 +96,12 @@ class Board {
                 ship.setDirection(HORIZONTAL);
             }
             //Let player know if chosen row, column, and direction are not valid inputs
-            if (!openSpaceChecker(shipRow, shipCol, ship.getHitNum(), ship.getDirection())){
+            if (!openSpaceChecker(boardP, shipRow, shipCol, ship.getHitNum(), ship.getDirection())){
                 std::cout << "Selected row and column are not valid spots to place ship" << std::endl;
             }
             //place ship if chosen row and column and direction are all valid
-            if (openSpaceChecker(shipRow, shipCol, ship.getHitNum(), ship.getDirection())){
-                placeShipHelper(shipRow, shipCol, size, ship.getDirection(), ship.getShipName());
+            if (openSpaceChecker(boardP, shipRow, shipCol, ship.getHitNum(), ship.getDirection())){
+                placeShipHelper(boardP, shipRow, shipCol, ship.getHitNum(), ship.getDirection(), ship.getShipName());
             }
         }
 
@@ -86,7 +110,13 @@ class Board {
         *
         * @param ship the ship to be placed by the computer
         */
-        void placeShipComputer(Ship ship){
+        void placeShipComputer(Board board[10][10], Ship ship){
+            Board boardC[10][10];
+            for (int row = 0; row < 10; row++){
+                for (int col = 0; col < 10; col++){
+                    boardC[row][col] = board[row][col];
+                }
+            }
             //get rand num between 0 and 1 for direction
             int randDir = randGen(0, 1);
             //get rand num between 0 and 9 for row
@@ -103,18 +133,18 @@ class Board {
                 ship.setDirection(HORIZONTAL);
             }
             //While there is not an open spot 
-            while(!openSpaceChecker(randRow, randCol, ship.getHitNum(), ship.getDirection()){
+            while(!openSpaceChecker(boardC, randRow, randCol, ship.getHitNum(), ship.getDirection())){
                 //keep getting random numbers for randRow and randCol until they fit within the
                 //space of the board    
                 randRow = randGen(1, 10);
                 randCol = randGen(1, 10);
             }
             //use new rand for row as startRow
-            ship.setRow(randRow);
+            ship.Ship::setRow(randRow);
             //use new rand for col as startCol
-            ship.setCol(randCol);
+            ship.Ship::setCol(randCol);
             //pass new row and new col through placeShip function
-            placeShipHelper(shipRow, shipCol, size, shipDir, ship.getShipName());
+            placeShipHelper(boardC, randRow, randCol, ship.getHitNum(), ship.getDirection(), ship.getShipName());
         }
 
         /**
@@ -127,7 +157,13 @@ class Board {
         * @param shipDir the direction the ship will be placed (horizontal, vertical)
         * @return true if ship can be placed, false otherwise
         */
-        const bool openSpaceChecker(int shipRow, int shipCol, int size, ShipDirection shipDir){
+        const bool openSpaceChecker(Board board[10][10], int shipRow, int shipCol, int size, ShipDirection shipDir){
+            Board boardT[10][10];
+            for (int row = 0; row < 10; row++){
+                for (int col = 0; col < 10; col++){
+                    boardT[row][col] = board[row][col];
+                }
+            }
             //checks if the direction is vertical
             if(shipDir == VERTICAL){
                 //returns false if ship row + size is bigger than 9 (out of bounds, cannot place)
@@ -136,7 +172,7 @@ class Board {
 				}
                 //checks vertically for open spaces
 				for(int row = shipRow; row < shipRow + size; row++){
-					if(board[row][shipCol] !=0){
+					if(boardT[row][shipCol] !=0){
 						return false;
 					}
 				}
@@ -149,7 +185,7 @@ class Board {
 				}
                 //checks horizontally for open spaces
                 for(int col = shipCol; col < shipCol + size; col++){
-                    if(board[shipRow][col] !=0){
+                    if(boardT[shipRow][col] !=0){
                         return false;
 					}
 				}
@@ -167,30 +203,36 @@ class Board {
         * @param shipDir the direction the ship will be placed (horizontal, vertical)
         * @param name the name of the ship that is going to be placed
         */
-        void placeShipHelper(int shipRow, int shipCol, int size, ShipDirection shipDir, string name){
+        void placeShipHelper(Board board[10][10], int shipRow, int shipCol, int size, ShipDirection shipDir, std::string name){
+            Board boardS[10][10];
+            for (int row = 0; row < 10; row++){
+                for (int col = 0; col < 10; col++){
+                    boardS[row][col] = board[row][col];
+                }
+            }
             //check if direction is vertical
             if(shipDir == VERTICAL){
                 //for loop that will place ships vertically
 				for(int row = shipRow; row < shipRow+size; row++){
                     //place 1s if ship is carrier
                     if (name == "Carrier"){
-                        board[row][shipCol] = 1;
+                        boardS[row][shipCol] = 1;
                     }
                     //place 2s if ship is battleship
 					if (name == "Battleship"){
-                        board[row][shipCol] = 2;
+                        boardS[row][shipCol] = 2;
                     }
                     //place 3s if ship is submarine
                     if (name == "Submarine"){
-                        board[row][shipCol] = 3;
+                        boardS[row][shipCol] = 3;
                     }
                     //place 4s if ship is destroyer
                     if (name == "Destroyer"){
-                        board[row][shipCol] = 4;
+                        boardS[row][shipCol] = 4;
                     }
                     //place 5s if ship is patrol boat
                     if (name == "Patrol boat"){
-                        board[row][shipCol] = 5;
+                        boardS[row][shipCol] = 5;
                     }
 				}
 			}
@@ -200,23 +242,23 @@ class Board {
                 for(int col = shipCol; col < shipCol+size; col++){
                     //place 1s if ship is carrier
                     if (name == "Carrier"){
-                        board[row][shipCol] = 1;
+                        boardS[shipRow][col] = 1;
                     }
                     //place 2s if ship is battleship
 					if (name == "Battleship"){
-                        board[row][shipCol] = 2;
+                        boardS[shipRow][col] = 2;
                     }
                     //place 3s if ship is submarine
                     if (name == "Submarine"){
-                        board[row][shipCol] = 3;
+                        boardS[shipRow][col] = 3;
                     }
                     //place 4s if ship is destroyer
                     if (name == "Destroyer"){
-                        board[row][shipCol] = 4;
+                        boardS[shipRow][col] = 4;
                     }
                     //place 5s if ship is patrol boat
                     if (name == "Patrol boat"){
-                        board[row][shipCol] = 5;
+                        boardS[shipRow][col] = 5;
                     }
                 }
             }
@@ -231,10 +273,16 @@ class Board {
         * @param colGuess the column that is being guessed
         * @return returns true if there was a hit, and false otherwise
         */
-    bool makeGuess(Board gBoard, int rowGuess, int colGuess){
+    bool makeGuess(int board[10][10], int rowGuess, int colGuess){
+          int gBoard[10][10];
+            for (int row = 0; row < 10; row++){
+                for (int col = 0; col < 10; col++){
+                    gBoard[row][col] = board[row][col];
+                }
+            }
         for(int row = 0; row < 10; row++){         
             for(int col = 0; col < 10; col++){
-                if ((gBoard[row][col] == gBoard[rowGuess][colGuess]){
+                if ((gBoard[row][col] == gBoard[rowGuess][colGuess])){
                     if ((board[row][col] == 1) || (gBoard[row][col] == 2) ||
                     (gBoard[row][col] == 3) || (gBoard[row][col] == 4) ||
                     (gBoard[row][col] == 5)){
@@ -242,6 +290,7 @@ class Board {
                     }
                 }
             }
+        }
         return false;
     }
 
@@ -254,20 +303,27 @@ class Board {
         * @param colGuess the column that is being guessed
         * @return returns true if there was a hit, and false otherwise
         */
-    bool computerGuess(Board gBoard, int compRow, int compCol){
+    bool computerGuess(int board[10][10], int compRow, int compCol){
+        int gBoard[10][10];
+            for (int row = 0; row < 10; row++){
+                for (int col = 0; col < 10; col++){
+                    gBoard[row][col] = board[row][col];
+                }
+            }
         for(int row = 0; row < 10; row++){         
             for(int col = 0; col < 10; col++){
-                if ((gBoard[row][col] == gBoard[compRow][compCol]){
-                    if ((gboard[row][col] == 1) || (gBoard[row][col] == 2) ||
+                if ((gBoard[row][col] == gBoard[compRow][compCol])){
+                    if ((gBoard[row][col] == 1) || (gBoard[row][col] == 2) ||
                     (gBoard[row][col] == 3) || (gBoard[row][col] == 4) ||
                     (gBoard[row][col] == 5)){
                         return true;
                     }
                 }
             }
+        }
     }
 
     private:
         int board[10][10]; //private instance variable of the 2d board array
     
-}
+};

@@ -8,7 +8,7 @@
 using namespace std;
 
 
-int main(int argc, char* argv[]){
+int main(){
     char guessRow; //used for player row guesses
 	int guessCol; //used for player col guesses
     int shipDir; //used for determining vertical or horizontal placement
@@ -30,11 +30,11 @@ int main(int argc, char* argv[]){
     pBoard.setBoard(); //player board creation
     cBoard.setBoard(); //computer board creation
 
-    cBoard.placeShipComputer(ccarrier);  //computer carrier placement
-    cBoard.placeShipComputer(cbattleship); //computer battleship placement
-    cBoard.placeShipComputer(csubmarine); //computer submarine placement
-    cBoard.placeShipComputer(cdestroyer); //computer destroyer placement
-    cBoard.placeShipComputer(cpatrolboat); //computer patrol boat placement
+    cBoard.placeShipComputer(cBoard, ccarrier);  //computer carrier placement
+    cBoard.placeShipComputer(cBoard, cbattleship); //computer battleship placement
+    cBoard.placeShipComputer(cBoard, csubmarine); //computer submarine placement
+    cBoard.placeShipComputer(cBoard, cdestroyer); //computer destroyer placement
+    cBoard.placeShipComputer(cBoard, cpatrolboat); //computer patrol boat placement
 
     //start of the battleship game; player placement of ships
     std::cout << "\nWelcome to BattleShip!";
@@ -46,20 +46,20 @@ int main(int argc, char* argv[]){
     std::cout << "Enter column (1-10): ";
     std::cin >> guessCol;
     std::cout << "Enter Direction (0 or 1)";
-    std::cin >> shipDir
-    pBoard.placeShipPlayer(pcarrier, guessRow, guessCol, shipDir);
+    std::cin >> shipDir;
+    Board::placeShipPlayer(pBoard, pcarrier, guessRow, guessCol, shipDir);
 
     //player placement of ships
     std::cout << "\nEnter where you would like to place the " + battleship.getShipName()  + " (Will appear as 2s on the board";
-    std::cout << \n"Enter row (A-J): ";
+    std::cout << "\nEnter row (A-J): ";
     std::cin >> guessRow;
     guessRow = toupper(guessRow);
     int guessRowConversion = (int)guessRow - 47;
     std::cout << "Enter column (1-10): ";
     std::cin >> guessCol;
     std::cout << "Enter Direction (0 or 1)";
-    std::cin >> shipDir
-    pBoard.placeShipPlayer(pbattleship, guessRow, guessCol, shipDir);
+    std::cin >> shipDir;
+    Board::placeShipPlayer(pBoard, pbattleship, guessRow, guessCol, shipDir);
 
     //player placement of ships
     std::cout << "\nEnter where you would like to place the " + submarine.getShipName()  + " (Will appear as 3s on the board";
@@ -70,11 +70,11 @@ int main(int argc, char* argv[]){
     std::cout << "Enter column (1-10): ";
     std::cin >> guessCol;
     std::cout << "Enter Direction (0 or 1)";
-    std::cin >> shipDir
-    pBoard.placeShipPlayer(psubmarine, guessRow, guessCol, shipDir);
+    std::cin >> shipDir;
+    Board::placeShipPlayer(pBoard, psubmarine, guessRow, guessCol, shipDir);
 
     //player placement of ships
-    std::cout << "\nEnter where you would like to place the " + destroyer.getShipName()  + " (Will appear as 4s on the board";
+    std::cout << "\nEnter where you would like to place the " + destroyer.getShipName()  + " (Will appear as 4s on the board)";
     std::cout << "\nEnter row (A-J): ";
     std::cin >> guessRow;
     guessRow = toupper(guessRow);
@@ -82,11 +82,11 @@ int main(int argc, char* argv[]){
     std::cout << "Enter column (1-10): ";
     std::cin >> guessCol;
     std::cout << "Enter Direction (0 or 1)";
-    std::cin >> shipDir
-    pBoard.placeShipPlayer(pdestroyer, guessRow, guessCol, shipDir);
+    std::cin >> shipDir;
+    Board::placeShipPlayer(pBoard, pdestroyer, guessRow, guessCol, shipDir);
 
     //player placement of ships
-    std::cout << "\nEnter where you would like to place the " + patrolboat.getShipName()  + " (Will appear as 5s on the board";
+    std::cout << "\nEnter where you would like to place the " + patrolboat.getShipName()  + " (Will appear as 5s on the board)";
     std::cout << "\nEnter row (A-J): ";
     std::cin >> guessRow;
     guessRow = toupper(guessRow);
@@ -94,8 +94,10 @@ int main(int argc, char* argv[]){
     std::cout << "Enter column (1-10): ";
     std::cin >> guessCol;
     std::cout << "Enter Direction (0 or 1)";
-    std::cin >> shipDir
-    pBoard.placeShipPlayer(ppatrolboat, guessRow, guessCol, shipDir);
+    std::cin >> shipDir;
+    Board::placeShipPlayer(pBoard, ppatrolboat, guessRow, guessCol, shipDir);
+
+    Board::printBoard(pBoard);
 
     //do while that alternates turns between player and computer to make guesses and update board accordingly
     do {
@@ -106,30 +108,30 @@ int main(int argc, char* argv[]){
         guessRow = toupper(guessRow);
         std::cout << "Enter Guess for Column";
         std::cin >> guessCol;
-        int colConv = (int)guessCol - 47
+        int colConv = (int)guessCol - 47;
 
         //check if player guess was a hit
         bool isHitPlayer = Board::makeGuess(cBoard, guessRow, colConv);
         if (isHitPlayer){
             if (cBoard[guessRow][colConv] == 1){
                 ccarier.reduceHitNum();
-                cBoard[guessRow][colConv] = 9
+                cBoard[guessRow][colConv] = 9;
             }
             if (cBoard[guessRow][colConv] == 2){
                 cbattleship.reduceHitNum();
-                cBoard[guessRow][colConv] = 9
+                cBoard[guessRow][colConv] = 9;
             }
             if (cBoard[guessRow][colConv] == 3){
                 csubmarine.reduceHitNum();
-                cBoard[guessRow][colConv] = 9
+                cBoard[guessRow][colConv] = 9;
             }
             if (cBoard[guessRow][colConv] == 4){
                 cdestroyer.reduceHitNum();
-                cBoard[guessRow][colConv] = 9
+                cBoard[guessRow][colConv] = 9;
             }
             if (cBoard[guessRow][colConv] == 5){
                 cpatrolboat.reduceHitNum();
-                cBoard[guessRow][colConv] = 9
+                cBoard[guessRow][colConv] = 9;
             }
         }
         Battleship::checkGameState(cBoard, "Player");
@@ -142,23 +144,23 @@ int main(int argc, char* argv[]){
         if (isHitComputer){
             if (pBoard[compRow][compCol] == 1){
                 pcarier.reduceHitNum();
-                pBoard[compRow][compCol] = 9
+                pBoard[compRow][compCol] = 9;
             }
             if (pBoard[compRow][compCol] == 2){
                 pbattleship.reduceHitNum();
-                pBoard[compRow][compCol] = 9
+                pBoard[compRow][compCol] = 9;
             }
             if (pBoard[compRow][compCol] == 3){
                 psubmarine.reduceHitNum();
-                pBoard[compRow][compCol] = 9
+                pBoard[compRow][compCol] = 9;
             }
             if (pBoard[compRow][compCol] == 4){
                 pdestroyer.reduceHitNum();
-                pBoard[compRow][compCol] = 9
+                pBoard[compRow][compCol] = 9;
             }
             if (pBoard[compRow][compCol] == 5){
                 ppatrolboat.reduceHitNum();
-                pBoard[compRow][compCol] = 9
+                pBoard[compRow][compCol] = 9;
             }
         }
         Battleship::checkGameState(pBoard, "Computer");
@@ -168,4 +170,5 @@ int main(int argc, char* argv[]){
 
     //winner message
     Battleship::getWinner();
-}
+    return 0;
+};
